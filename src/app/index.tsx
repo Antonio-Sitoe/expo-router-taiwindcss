@@ -2,7 +2,6 @@ import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import Colors from "tailwindcss/colors";
-import Button from "../Components/Button/Button";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Link } from "expo-router";
 
