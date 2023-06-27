@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import ProgressBar from "../Components/ProgressBar";
 import { useRef, useState } from "react";
+import { Link } from "expo-router";
 
 interface ScrollProps {
   nativeEvent: {
@@ -43,6 +44,9 @@ export default function Page() {
     <>
       <StatusBar barStyle="light-content" />
       <View className="flex-1 bg-black p-4 pt-10">
+        <Link href="/contato" className="text-white">
+          contato
+        </Link>
         <ScrollView className="pt-6 pb-6" onScroll={handleScroll}>
           <Text className="text-white font-bold text-3xl">Sobre o app</Text>
           <View>
