@@ -4,8 +4,8 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Link href="/about">
-          <Text style={styles.title}>Contacto World</Text>
+        <Link href="/tab/contato">
+          <Text style={styles.title}>Cats World</Text>
         </Link>
         <Text style={styles.subtitle}>This is the first page of your app.</Text>
       </View>

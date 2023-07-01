@@ -1,4 +1,4 @@
-import { Link, Tabs, Stack } from "expo-router";
+import { Tabs } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 
 export default function AppLayout() {
@@ -22,6 +22,16 @@ export default function AppLayout() {
         name="contato"
         options={{
           title: "Dogs",
+          tabBarIcon: () => <Text>🐶</Text>,
+          headerStyle: {
+            marginBottom: 90,
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="(tabs)"
+        options={{
+          title: "About",
           tabBarIcon: () => <Text>🐶</Text>,
           headerStyle: {
             marginBottom: 90,

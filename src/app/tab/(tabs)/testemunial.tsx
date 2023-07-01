@@ -1,18 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
 import { Link } from "expo-router";
-export default function Page() {
+
+export default function Testemunial() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Link href="/about">
-          <Text style={styles.title}>Contacto World</Text>
+        <Link href="/people" asChild>
+          <Text style={styles.title}>people</Text>
         </Link>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
       </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
