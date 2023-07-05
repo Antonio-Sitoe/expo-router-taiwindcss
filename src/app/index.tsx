@@ -76,7 +76,7 @@ export default function Page() {
       {recordingFileUri && (
         <Button onPress={handleAudioPlay} title="Ouvir o audio" />
       )}
-      <Link href="/about">about</Link>
+      <Link href="/contato">about</Link>
     </View>
   );
 }
