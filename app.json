@@ -8,6 +8,11 @@
     "slug": "expo-router-taiwindcss",
     "android": {
       "package": "com.antoniositoe533.exporoutertaiwindcss"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "tsconfigPaths": true,
+      "typedRoutes": true
     }
   }
 }

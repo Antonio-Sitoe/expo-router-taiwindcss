@@ -1,50 +1,44 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import {
-  BookOpenCheck,
-  BadgeDollarSign,
-  MessageSquarePlus,
-  LucidePresentation,
-  View,
-} from 'lucide-react-native'
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native'
-
-import { useFonts } from 'expo-font'
 import { Drawer } from 'expo-router/drawer'
-import React, { useEffect } from 'react'
+import { useFonts } from 'expo-font'
+import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { Route, SplashScreen, useRouter } from 'expo-router'
-import { useColorScheme } from 'nativewind'
-import Animated from 'react-native-reanimated'
+import { withExpoSnack, NativeWindStyleSheet } from 'nativewind'
+import { SplashScreen } from 'expo-router'
+
+import '@/lib/dayjs'
+
+import Colors from '@/constants/Colors'
+
 import {
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerContentComponentProps,
-} from '@react-navigation/drawer'
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter'
 
-import { IconIOS } from '@/assets/icons/Icon'
-import AvatarPerfil from '@/components/AvatarPerfil'
-import { TouchableOpacity } from 'react-native'
-
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router'
+import { CustomDrawerContent } from '@/components/DrawerMenu'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Menu, RefreshCcw } from 'lucide-react-native'
+import useTheme from '@/hooks/useTheme'
 
 export const unstable_settings = {
   initialRouteName: '(tabs)',
 }
 
+NativeWindStyleSheet.setOutput({
+  default: 'native',
+})
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
+function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
+    IBMPLEX_Regular: require('../assets/fonts/IBMPlexSansCondensed-Regular.ttf'),
+    IBMPLEX_Medium: require('../assets/fonts/IBMPlexSansCondensed-Medium.ttf'),
+    IBMPLEX_Bold: require('../assets/fonts/IBMPlexSansCondensed-Bold.ttf'),
   })
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -65,129 +59,60 @@ export default function RootLayout() {
   return <RootLayoutNav />
 }
 
-function CustomDrawerContent(props: DrawerContentComponentProps) {
-  const router = useRouter()
-
-  function handleGotoRoute(route: Route<string>) {
-    router.push(route)
-    // props.navigation.closeDrawer()
-  }
-  return (
-    <DrawerContentScrollView {...props}>
-      <AvatarPerfil
-        closeDrawer={props.navigation.closeDrawer}
-        route="/(drawer)/profile"
-      />
-      <Animated.View className="w-full h-full pt-6 pb-6 pr-6 pl-2">
-        <DrawerItem
-          label="Home"
-          activeBackgroundColor="blue"
-          labelStyle={{
-            fontSize: 16,
-            paddingVertical: 5,
-          }}
-          style={{ width: '100%' }}
-          icon={() => (
-            <IconIOS name="ios-home-outline" size={28} color={'#535763'} />
-          )}
-          onPress={() => handleGotoRoute('/(tabs)')}
-        />
-        <DrawerItem
-          label="Conversas sobre a Biblia"
-          activeBackgroundColor="blue"
-          labelStyle={{
-            fontSize: 16,
-            paddingVertical: 5,
-          }}
-          style={{ width: '100%' }}
-          icon={() => (
-            <LucidePresentation strokeWidth={1.5} size={28} color="#535763" />
-          )}
-          onPress={() => handleGotoRoute('/(drawer)/presentation')}
-        />
-        <DrawerItem
-          label="Guia de Usuario"
-          activeBackgroundColor="blue"
-          labelStyle={{
-            fontSize: 16,
-            paddingVertical: 5,
-          }}
-          style={{ width: '100%' }}
-          icon={() => (
-            <BookOpenCheck strokeWidth={1.5} size={28} color="#535763" />
-          )}
-          onPress={() => handleGotoRoute('/drawer/userGuide/')}
-        />
-        <DrawerItem
-          label="Ajuda e feedback"
-          activeBackgroundColor="blue"
-          labelStyle={{
-            fontSize: 16,
-            paddingVertical: 5,
-          }}
-          style={{ width: '100%' }}
-          icon={() => (
-            <MessageSquarePlus strokeWidth={1.5} size={28} color="#535763" />
-          )}
-          onPress={() => handleGotoRoute('/(drawer)/feedback')}
-        />
-        <DrawerItem
-          label="Definicoes"
-          activeBackgroundColor="blue"
-          labelStyle={{
-            fontSize: 16,
-            paddingVertical: 5,
-          }}
-          style={{ width: '100%' }}
-          icon={() => (
-            <IconIOS name="settings-outline" size={28} color="#535763" />
-          )}
-          onPress={() => handleGotoRoute('/(drawer)/settings')}
-        />
-        <DrawerItem
-          label="Apoiar"
-          activeBackgroundColor="blue"
-          labelStyle={{
-            fontSize: 16,
-            paddingVertical: 5,
-          }}
-          style={{ width: '100%' }}
-          icon={() => (
-            <BadgeDollarSign size={28} strokeWidth={1.5} color="#535763" />
-          )}
-          onPress={() => handleGotoRoute('/drawer/helpUs')}
-        />
-      </Animated.View>
-    </DrawerContentScrollView>
-  )
-}
 function RootLayoutNav() {
-  const { colorScheme } = useColorScheme()
+  const { isDark } = useTheme()
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <StatusBar
-        animated
-        translucent
-        style={colorScheme === 'dark' ? 'light' : 'dark'}
-      />
-
+    <>
+      <StatusBar animated translucent style="auto" backgroundColor="red" />
       <Drawer
         initialRouteName="(tabs)"
-        screenOptions={{
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        screenOptions={(props) => ({
+          headerRightContainerStyle: {
+            paddingRight: 20,
+          },
+          headerLeftContainerStyle: {
+            paddingLeft: 20,
+          },
+          headerLeft() {
+            return (
+              <TouchableOpacity onPress={() => props.navigation.openDrawer()}>
+                <Menu
+                  strokeWidth={1.5}
+                  color={isDark ? Colors.dark.text : Colors.light.tint}
+                  size={28}
+                />
+              </TouchableOpacity>
+            )
+          },
+          headerRight: () => (
+            <TouchableOpacity>
+              <RefreshCcw
+                color={isDark ? Colors.dark.text : Colors.light.tint}
+                className="rotate-45"
+                size={28}
+                strokeWidth={1.5}
+              />
+            </TouchableOpacity>
+          ),
+          headerTintColor: isDark ? Colors.dark.text : Colors.light.text,
+          headerStyle: {
+            height: 85,
+            borderBottomRightRadius: isDark ? 0 : 10,
+            borderBottomLeftRadius: isDark ? 0 : 10,
+            backgroundColor: isDark
+              ? Colors.dark.darkBgSecundary
+              : Colors.light.background,
+          },
+          title: '',
           drawerStyle: {
             width: 320,
           },
-        }}
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
-      >
-        <Drawer.Screen
-          name="(tabs)"
-          options={{ drawerLabel: 'Home', title: '' }}
-        />
-        <Drawer.Screen name="feedback" />
-        <Drawer.Screen name="modal" />
-      </Drawer>
-    </ThemeProvider>
+        })}
+      />
+    </>
   )
 }
+
+export default withExpoSnack(RootLayout)
